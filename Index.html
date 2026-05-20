@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Putthamon Roster</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #f7f8fc;
+    --white:     #ffffff;
+    --border:    #e8eaf0;
+    --text:      #2d3142;
+    --muted:     #9096b0;
+    --today-ring:#f59e42;
+
+    /* Pastel flight – sky blue */
+    --flight-bg:   #ddeeff;
+    --flight-bd:   #a8ccf0;
+    --flight-text: #2a6099;
+    --flight-cell: #eaf4ff;
+
+    /* Pastel day off – mint green */
+    --off-bg:   #d6f5e8;
+    --off-bd:   #96ddb8;
+    --off-text: #1a7a4a;
+    --off-cell: #edfaf3;
+
+    /* Pastel standby – peach/coral */
+    --reserve-bg:   #ffe4d6;
+    --reserve-bd:   #f5b89a;
+    --reserve-text: #b84c1e;
+    --reserve-cell: #fff1eb;
+
+    /* Pastel training – lavender */
+    --training-bg:   #ece6ff;
+    --training-bd:   #c3aff5;
+    --training-text: #5b3bcc;
+    --training-cell: #f4f0ff;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+  }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 20px 64px;
+  }
+
+  /* ── Header ─────────────────────────────────────────── */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+  }
+
+  .header-left .eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .header-left h1 {
+    font-size: clamp(22px, 4vw, 36px);
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .header-left h1 span {
+    color: #4a90d9;
+  }
+
+  .header-right {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  /* ── Legend ─────────────────────────────────────────── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    margin-bottom: 32px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px 5px 10px;
+  }
+
+  .legend-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* ── Month header ────────────────────────────────────── */
+  .month-block {
+    margin-bottom: 40px;
+  }
+
+  .month-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 12px;
+  }
+
+  .month-header h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .month-header .line {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+  }
+
+  /* ── Calendar grid ───────────────────────────────────── */
+  .calendar {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+
+  .day-label {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 6px 0 10px;
+  }
+
+  .day-cell {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 10px 9px 9px;
+    min-height: 110px;
+    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: default;
+  }
+
+  .day-cell.empty {
+    background: transparent;
+    border-color: transparent;
+    pointer-events: none;
+  }
+
+  .day-cell:not(.empty):hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  }
+
+  /* today ring */
+  .day-cell.today {
+    border-color: var(--today-ring);
+    box-shadow: 0 0 0 2px var(--today-ring);
+  }
+
+  /* cell background by type */
+  .day-cell.cell-flight   { background: var(--flight-cell);   border-color: var(--flight-bd); }
+  .day-cell.cell-off      { background: var(--off-cell);      border-color: var(--off-bd); }
+  .day-cell.cell-reserve  { background: var(--reserve-cell);  border-color: var(--reserve-bd); }
+  .day-cell.cell-training { background: var(--training-cell); border-color: var(--training-bd); }
+
+  .day-num {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 7px;
+  }
+
+  .day-cell.today .day-num {
+    color: var(--today-ring);
+  }
+
+  /* ── Badge ───────────────────────────────────────────── */
+  .duty-badge {
+    display: flex;
+    flex-direction: column;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 6px;
+    padding: 4px 7px;
+    margin-bottom: 3px;
+    line-height: 1.5;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .duty-badge .route { font-weight: 800; font-size: 11px; }
+  .duty-badge .duty-time { font-size: 10px; font-weight: 600; opacity: 0.75; }
+
+  .type-flight   { background: var(--flight-bg);   color: var(--flight-text); }
+  .type-sb,
+  .type-off,
+  .type-ground,
+  .type-pg       { background: var(--off-bg);      color: var(--off-text); }
+  .type-reserve  { background: var(--reserve-bg);  color: var(--reserve-text); }
+  .type-training { background: var(--training-bg); color: var(--training-text); }
+
+  /* ── Modal overlay ───────────────────────────────────── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 35, 60, 0.35);
+    backdrop-filter: blur(3px);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .modal-overlay.open { display: flex; }
+
+  .modal {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 28px 28px 24px;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+    position: relative;
+    animation: popIn 0.2s ease both;
+  }
+
+  @keyframes popIn {
+    from { opacity:0; transform: scale(0.93) translateY(10px); }
+    to   { opacity:1; transform: scale(1) translateY(0); }
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 18px;
+    background: var(--bg);
+    border: none;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    font-size: 18px;
+    cursor: pointer;
+    color: var(--muted);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s;
+  }
+  .modal-close:hover { background: var(--border); }
+
+  .modal-date {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .modal-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 20px;
+  }
+
+  .modal-sector {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+  }
+
+  .modal-sector-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .modal-sector-badge {
+    font-size: 12px;
+    font-weight: 800;
+    border-radius: 6px;
+    padding: 3px 10px;
+  }
+
+  .modal-sector-route {
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  .modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 12px;
+  }
+
+  .modal-field label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .modal-field span {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .modal-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 10px 0;
+  }
+
+  /* ── Mobile ──────────────────────────────────────────── */
+  @media(max-width: 600px) {
+    header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .header-right { text-align: left; }
+    .calendar { gap: 4px; }
+    .day-cell { min-height: 72px; padding: 7px 5px; border-radius: 9px; }
+    .duty-badge { font-size: 10px; padding: 3px 5px; }
+    .day-num { font-size: 12px; }
+    .legend-item { font-size: 12px; }
+    .modal { padding: 22px 18px 18px; }
+    .modal-title { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="header-left">
+      <div class="eyebrow">✈ Flight Roster</div>
+      <h1>SUWANACHOTE <span>P</span></h1>
+    </div>
+    <div class="header-right">
+      May &amp; June 2026
+    </div>
+  </header>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#4a90d9"></div> Flight
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#34b874"></div> Day Off
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#e8784a"></div> Standby Duty (RG)
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#7c5cbf"></div> Training
+    </div>
+  </div>
+
+  <div class="month-block">
+    <div class="month-header">
+      <h2>May 2026</h2>
+      <div class="line"></div>
+    </div>
+    <div class="calendar" id="may-calendar"></div>
+  </div>
+
+  <div class="month-block">
+    <div class="month-header">
+      <h2>June 2026</h2>
+      <div class="line"></div>
+    </div>
+    <div class="calendar" id="jun-calendar"></div>
+  </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div class="modal-date" id="modal-date"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+const TODAY = '2026-05-20';
+
+const rosterData = {
+  // MAY
+  '2026-05-01': [
+    { type:'flight', label:'HKG → KUL', dep:'0810L', arr:'1205L', duty:'CX0723', ac:'35G', block:'3:55', dutyStart:'0650L' },
+    { type:'flight', label:'KUL → HKG', dep:'1310L', arr:'1725L', duty:'CX0722', ac:'35G', block:'4:15', dutyEnd:'1755L', dutyPeriod:'11:05' },
+  ],
+  '2026-05-02': [
+    { type:'flight', label:'HKG → NGO', dep:'1010L', arr:'1505L', duty:'CX0536', ac:'33J', block:'3:55', dutyStart:'0850L' },
+    { type:'flight', label:'NGO → HKG', dep:'1610L', arr:'1930L', duty:'CX0539', ac:'33J', block:'4:20', dutyEnd:'2000L', dutyPeriod:'11:10' },
+  ],
+  '2026-05-03': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33E', block:'3:00', dutyStart:'1040L', dutyEnd:'1430L', dutyPeriod:'3:50' }],
+  '2026-05-04': [{ type:'off', label:'Day Off' }],
+  '2026-05-05': [{ type:'off', label:'Day Off' }],
+  '2026-05-06': [{ type:'off', label:'Day Off' }],
+  '2026-05-07': [{ type:'off', label:'Day Off' }],
+  '2026-05-08': [{ type:'reserve', label:'Standby RG100', dutyStart:'0400L', dutyEnd:'0800L', period:'4:00' }],
+  '2026-05-09': [{ type:'reserve', label:'Standby RG100', dutyStart:'0400L', dutyEnd:'0800L', period:'4:00' }],
+  '2026-05-10': [{ type:'off', label:'Day Off' }],
+  '2026-05-11': [{ type:'off', label:'Day Off' }],
+  '2026-05-12': [{ type:'flight', label:'BKK → HKG', dep:'0735L', arr:'1135L', duty:'CX0700', ac:'33P', block:'3:00', dutyStart:'0615L', dutyEnd:'1205L', dutyPeriod:'4:50' }],
+  '2026-05-13': [
+    { type:'flight', label:'HKG → SIN', dep:'0840L', arr:'1225L', duty:'CX0759', ac:'35G', block:'3:45', dutyStart:'0720L' },
+    { type:'flight', label:'SIN → HKG', dep:'1325L', arr:'1735L', duty:'CX0758', ac:'35G', block:'4:10', dutyEnd:'1805L', dutyPeriod:'10:45' },
+  ],
+  '2026-05-14': [
+    { type:'flight', label:'HKG → DPS', dep:'1000L', arr:'1500L', duty:'CX0785', ac:'77P', block:'5:00', dutyStart:'0840L' },
+    { type:'flight', label:'DPS → HKG', dep:'1615L', arr:'2125L', duty:'CX0784', ac:'77P', block:'5:10', dutyEnd:'2155L', dutyPeriod:'13:15' },
+  ],
+  '2026-05-15': [{ type:'flight', label:'HKG → BKK', dep:'1605L', arr:'1800L', duty:'CX0701', ac:'33J', block:'2:55', dutyStart:'1445L', dutyEnd:'1830L', dutyPeriod:'4:45' }],
+  '2026-05-16': [{ type:'off', label:'Day Off' }],
+  '2026-05-17': [{ type:'off', label:'Day Off' }],
+  '2026-05-18': [{ type:'flight', label:'BKK → HKG', dep:'1100L', arr:'1505L', duty:'CX0750', ac:'33P', block:'3:05', dutyStart:'0940L', dutyEnd:'1535L', dutyPeriod:'4:55' }],
+  '2026-05-19': [{ type:'training', label:'AE211 Training', dutyStart:'0830L', dutyEnd:'1730L', period:'9:00' }],
+  '2026-05-20': [{ type:'training', label:'AE212 Training', dutyStart:'0830L', dutyEnd:'1730L', period:'9:00' }],
+  '2026-05-21': [{ type:'training', label:'2CO00 Training', dutyStart:'0900L', dutyEnd:'1730L', period:'8:30' }],
+  '2026-05-22': [{ type:'off', label:'Day Off' }],
+  '2026-05-23': [
+    { type:'flight', label:'HKG → WNZ', dep:'0830L', arr:'1040L', duty:'CX0384', ac:'32Q', block:'2:10', dutyStart:'0710L' },
+    { type:'flight', label:'WNZ → HKG', dep:'1150L', arr:'1400L', duty:'CX0385', ac:'32Q', block:'2:10', dutyEnd:'1430L', dutyPeriod:'7:20' },
+  ],
+  '2026-05-24': [{ type:'flight', label:'HKG → BKK', dep:'0800L', arr:'1000L', duty:'CX0705', ac:'33P', block:'3:00', dutyStart:'0640L', dutyEnd:'1030L', dutyPeriod:'4:50' }],
+  '2026-05-25': [{ type:'off', label:'Day Off' }],
+  '2026-05-26': [{ type:'off', label:'Day Off' }],
+  '2026-05-27': [{ type:'off', label:'Day Off' }],
+  '2026-05-28': [{ type:'reserve', label:'Standby RG300', dutyStart:'0730L', dutyEnd:'1130L', period:'4:00' }],
+  '2026-05-29': [{ type:'flight', label:'BKK → HKG', dep:'0735L', arr:'1135L', duty:'CX0700', ac:'33K', block:'3:00', dutyStart:'0615L', dutyEnd:'1205L', dutyPeriod:'4:50' }],
+  '2026-05-30': [
+    { type:'flight', label:'HKG → HKT', dep:'0805L', arr:'1050L', duty:'CX0771', ac:'32Q', block:'3:45', dutyStart:'0645L' },
+    { type:'flight', label:'HKT → HKG', dep:'1150L', arr:'1650L', duty:'CX0770', ac:'32Q', block:'4:00', dutyEnd:'1720L', dutyPeriod:'10:35' },
+  ],
+  '2026-05-31': [
+    { type:'flight', label:'HKG → CGK', dep:'0910L', arr:'1310L', duty:'CX0777', ac:'33E', block:'5:00', dutyStart:'0750L' },
+    { type:'flight', label:'CGK → HKG', dep:'1420L', arr:'2030L', duty:'CX0776', ac:'33E', block:'5:10', dutyEnd:'2100L', dutyPeriod:'13:10' },
+  ],
+  // JUN
+  '2026-06-01': [{ type:'flight', label:'HKG → BKK', dep:'1430L', arr:'1630L', duty:'CX0751', ac:'32Q', block:'3:00', dutyStart:'1305L', dutyEnd:'1700L', dutyPeriod:'4:55' }],
+  '2026-06-02': [{ type:'off', label:'Day Off' }],
+  '2026-06-03': [{ type:'off', label:'Day Off' }],
+  '2026-06-04': [{ type:'flight', label:'BKK → HKG', dep:'0735L', arr:'1135L', duty:'CX0700', ac:'33B', block:'3:00', dutyStart:'0615L', dutyEnd:'1205L', dutyPeriod:'4:50' }],
+  '2026-06-05': [
+    { type:'flight', label:'HKG → KTI', dep:'0835L', arr:'1015L', duty:'CX0607', ac:'33J', block:'2:40', dutyStart:'0710L' },
+    { type:'flight', label:'KTI → HKG', dep:'1125L', arr:'1515L', duty:'CX0608', ac:'33J', block:'2:50', dutyEnd:'1545L', dutyPeriod:'8:35' },
+  ],
+  '2026-06-06': [
+    { type:'flight', label:'HKG → ICN', dep:'0755L', arr:'1240L', duty:'CX0434', ac:'33J', block:'3:45', dutyStart:'0630L' },
+    { type:'flight', label:'ICN → HKG', dep:'1340L', arr:'1630L', duty:'CX0439', ac:'33J', block:'3:50', dutyEnd:'1700L', dutyPeriod:'10:30' },
+  ],
+  '2026-06-07': [{ type:'flight', label:'HKG → BKK', dep:'0900L', arr:'1105L', duty:'CX0717', ac:'32Q', block:'3:05', dutyStart:'0735L', dutyEnd:'1135L', dutyPeriod:'5:00' }],
+  '2026-06-08': [{ type:'off', label:'Day Off' }],
+  '2026-06-09': [{ type:'off', label:'Day Off' }],
+  '2026-06-10': [{ type:'flight', label:'BKK → HKG', dep:'0735L', arr:'1135L', duty:'CX0700', ac:'33A', block:'3:00', dutyStart:'0615L', dutyEnd:'1205L', dutyPeriod:'4:50' }],
+  '2026-06-11': [
+    { type:'flight', label:'HKG → FUK', dep:'0815L', arr:'1245L', duty:'CX0512', ac:'32Q', block:'3:30', dutyStart:'0650L' },
+    { type:'flight', label:'FUK → HKG', dep:'1400L', arr:'1645L', duty:'CX0513', ac:'32Q', block:'3:45', dutyEnd:'1715L', dutyPeriod:'10:25' },
+  ],
+  '2026-06-12': [{ type:'training', label:'WS001 Training', dutyStart:'0900L', dutyEnd:'1730L', period:'8:30' }],
+  '2026-06-13': [{ type:'flight', label:'HKG → BKK', dep:'0800L', arr:'1000L', duty:'CX0705', ac:'33P', block:'3:00', dutyStart:'0635L', dutyEnd:'1030L', dutyPeriod:'4:55' }],
+  '2026-06-14': [{ type:'off', label:'Priority Day Off' }],
+  '2026-06-15': [{ type:'off', label:'Priority Day Off' }],
+  '2026-06-16': [{ type:'off', label:'Day Off' }],
+  '2026-06-17': [{ type:'off', label:'Day Off' }],
+  '2026-06-18': [{ type:'off', label:'Day Off' }],
+  '2026-06-19': [{ type:'flight', label:'BKK → HKG', dep:'1100L', arr:'1505L', duty:'CX0750', ac:'33B', block:'3:05', dutyStart:'0940L', dutyEnd:'1535L', dutyPeriod:'4:55' }],
+  '2026-06-20': [
+    { type:'flight', label:'HKG → HKT', dep:'0805L', arr:'1050L', duty:'CX0771', ac:'32Q', block:'3:45', dutyStart:'0640L' },
+    { type:'flight', label:'HKT → HKG', dep:'1150L', arr:'1650L', duty:'CX0770', ac:'32Q', block:'4:00', dutyEnd:'1720L', dutyPeriod:'10:40' },
+  ],
+  '2026-06-21': [
+    { type:'flight', label:'HKG → NGO', dep:'1010L', arr:'1505L', duty:'CX0536', ac:'35G', block:'3:55', dutyStart:'0845L' },
+    { type:'flight', label:'NGO → HKG', dep:'1610L', arr:'1930L', duty:'CX0539', ac:'35G', block:'4:20', dutyEnd:'2000L', dutyPeriod:'11:15' },
+  ],
+  '2026-06-22': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33J', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'4:55' }],
+  '2026-06-23': [{ type:'off', label:'Day Off' }],
+  '2026-06-24': [{ type:'off', label:'Day Off' }],
+  '2026-06-25': [{ type:'off', label:'Day Off' }],
+  '2026-06-26': [{ type:'off', label:'Day Off' }],
+  '2026-06-27': [{ type:'off', label:'Day Off' }],
+  '2026-06-28': [{ type:'flight', label:'BKK → HKG', dep:'1100L', arr:'1505L', duty:'CX0750', ac:'33P', block:'3:05', dutyStart:'0940L', dutyEnd:'1535L', dutyPeriod:'4:55' }],
+  '2026-06-29': [
+    { type:'flight', label:'HKG → KTI', dep:'0835L', arr:'1015L', duty:'CX0607', ac:'33A', block:'2:40', dutyStart:'0710L' },
+    { type:'flight', label:'KTI → HKG', dep:'1125L', arr:'1515L', duty:'CX0608', ac:'33A', block:'2:50', dutyEnd:'1545L', dutyPeriod:'8:35' },
+  ],
+  '2026-06-30': [
+    { type:'flight', label:'HKG → NRT', dep:'0815L', arr:'1340L', duty:'CX0526', ac:'35G', block:'4:25', dutyStart:'0650L' },
+    { type:'flight', label:'NRT → HKG', dep:'1450L', arr:'1850L', duty:'CX0527', ac:'35G', block:'5:00', dutyEnd:'1920L', dutyPeriod:'12:30' },
+  ],
+};
+
+function typeClass(t) {
+  const m = { flight:'type-flight', sb:'type-off', off:'type-off', ground:'type-off', pg:'type-off', reserve:'type-reserve', training:'type-training' };
+  return m[t] || 'type-off';
+}
+
+function cellClass(t) {
+  if (t === 'flight')   return 'cell-flight';
+  if (t === 'reserve')  return 'cell-reserve';
+  if (t === 'training') return 'cell-training';
+  return 'cell-off';
+}
+
+function typeIcon(t) {
+  if (t === 'flight')   return '✈';
+  if (t === 'reserve')  return '🔔';
+  if (t === 'training') return '📚';
+  return '☀';
+}
+
+// Build destination summary — show only non-HKG stops
+function routeSummary(duties) {
+  if (!duties || !duties.length) return '';
+  if (duties[0].type !== 'flight') return duties[0].label;
+  const dests = duties.map(d => d.label.split(' → ')[1]).filter(s => s !== 'HKG');
+  // If all land back in HKG with no foreign stop (shouldn't happen), show last dest
+  return dests.length > 0 ? dests.join(', ') : duties[duties.length-1].label.split(' → ')[1];
+}
+
+// Modal
+const overlay  = document.getElementById('modal-overlay');
+const modalDate  = document.getElementById('modal-date');
+const modalTitle = document.getElementById('modal-title');
+const modalBody  = document.getElementById('modal-body');
+
+document.getElementById('modal-close').addEventListener('click', () => overlay.classList.remove('open'));
+overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') overlay.classList.remove('open'); });
+
+function openModal(dateStr, duties) {
+  const d = new Date(dateStr + 'T00:00:00');
+  const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  modalDate.textContent = `${dayNames[d.getDay()]}, ${d.getDate()} ${monthNames[d.getMonth()]} 2026`;
+
+  const t = duties[0].type;
+  modalTitle.textContent = t === 'flight'
+    ? routeSummary(duties)
+    : duties[0].label;
+
+  let html = '';
+
+  if (t === 'flight') {
+    // Duty start from first sector
+    const dutyStart = duties[0].dutyStart || '—';
+    const lastD = duties[duties.length - 1];
+    const dutyEnd = lastD.dutyEnd || '—';
+    const dutyPeriod = lastD.dutyPeriod || '—';
+
+    html += `<div class="modal-sector" style="background:#f0f7ff; border:1.5px solid var(--flight-bd); margin-bottom:14px;">
+      <div class="modal-grid">
+        <div class="modal-field"><label>Duty Start</label><span>${dutyStart}</span></div>
+        <div class="modal-field"><label>Duty End</label><span>${dutyEnd}</span></div>
+        <div class="modal-field"><label>Duty Period</label><span>${dutyPeriod}</span></div>
+      </div>
+    </div>`;
+
+    duties.forEach((d, i) => {
+      html += `<div class="modal-sector">
+        <div class="modal-sector-header">
+          <span class="modal-sector-badge type-flight">Sector ${i+1}</span>
+          <span class="modal-sector-route">${d.label}</span>
+        </div>
+        <div class="modal-grid">
+          <div class="modal-field"><label>Flight</label><span>${d.duty}</span></div>
+          <div class="modal-field"><label>Aircraft</label><span>${d.ac}</span></div>
+          <div class="modal-field"><label>Departure</label><span>${d.dep}</span></div>
+          <div class="modal-field"><label>Arrival</label><span>${d.arr}</span></div>
+          <div class="modal-field"><label>Block</label><span>${d.block}</span></div>
+        </div>
+      </div>`;
+    });
+
+  } else if (t === 'reserve') {
+    const d0 = duties[0];
+    html += `<div class="modal-sector">
+      <div class="modal-grid">
+        <div class="modal-field"><label>Duty Start</label><span>${d0.dutyStart || '—'}</span></div>
+        <div class="modal-field"><label>Duty End</label><span>${d0.dutyEnd || '—'}</span></div>
+        <div class="modal-field"><label>Period</label><span>${d0.period || '—'}</span></div>
+      </div>
+    </div>`;
+
+  } else if (t === 'training') {
+    const d0 = duties[0];
+    html += `<div class="modal-sector">
+      <div class="modal-grid">
+        <div class="modal-field"><label>Start</label><span>${d0.dutyStart || '—'}</span></div>
+        <div class="modal-field"><label>End</label><span>${d0.dutyEnd || '—'}</span></div>
+        <div class="modal-field"><label>Period</label><span>${d0.period || '—'}</span></div>
+      </div>
+    </div>`;
+
+  } else {
+    html += `<div class="modal-sector"><p style="color:var(--muted);font-weight:600;">Rest day — no duties scheduled.</p></div>`;
+  }
+
+  modalBody.innerHTML = html;
+  overlay.classList.add('open');
+}
+
+function renderMonth(containerId, year, month) {
+  const el = document.getElementById(containerId);
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+    const lbl = document.createElement('div');
+    lbl.className = 'day-label';
+    lbl.textContent = d;
+    el.appendChild(lbl);
+  });
+
+  const firstDay = new Date(year, month - 1, 1).getDay();
+  for (let i = 0; i < firstDay; i++) {
+    const e = document.createElement('div');
+    e.className = 'day-cell empty';
+    el.appendChild(e);
+  }
+
+  const daysInMonth = new Date(year, month, 0).getDate();
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const duties = rosterData[dateStr];
+
+    const cell = document.createElement('div');
+    cell.className = 'day-cell';
+    if (dateStr === TODAY) cell.classList.add('today');
+    if (duties && duties.length) {
+      cell.classList.add(cellClass(duties[0].type));
+      cell.style.cursor = 'pointer';
+      cell.addEventListener('click', () => openModal(dateStr, duties));
+    }
+
+    const num = document.createElement('div');
+    num.className = 'day-num';
+    num.textContent = d;
+    cell.appendChild(num);
+
+    if (duties && duties.length) {
+      const t = duties[0].type;
+      const badge = document.createElement('div');
+      badge.className = `duty-badge ${typeClass(t)}`;
+
+      if (t === 'flight') {
+        // Show compact route + duty start time
+        const dutyStart = duties[0].dutyStart || '';
+        badge.innerHTML = `<span class="route">${typeIcon(t)} ${routeSummary(duties)}</span>`
+          + (dutyStart ? `<span class="duty-time">Duty ${dutyStart}</span>` : '');
+      } else if (t === 'reserve') {
+        badge.innerHTML = `<span class="route">${typeIcon(t)} ${duties[0].label}</span>`
+          + (duties[0].dutyStart ? `<span class="duty-time">${duties[0].dutyStart}</span>` : '');
+      } else if (t === 'training') {
+        badge.innerHTML = `<span class="route">${typeIcon(t)} ${duties[0].label}</span>`
+          + (duties[0].dutyStart ? `<span class="duty-time">${duties[0].dutyStart}</span>` : '');
+      } else {
+        badge.innerHTML = `<span class="route">${typeIcon(t)} ${duties[0].label}</span>`;
+      }
+
+      cell.appendChild(badge);
+    }
+
+    el.appendChild(cell);
+  }
+}
+
+renderMonth('may-calendar', 2026, 5);
+renderMonth('jun-calendar', 2026, 6);
+</script>
+</body>
+</html>
