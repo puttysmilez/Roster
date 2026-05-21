@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Putty Roster</title>
+<title>Putthamon Roster</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -419,7 +419,8 @@
 </div>
 
 <script>
-const TODAY = '2026-05-20';
+const today = new Date();
+const TODAY = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
 
 const rosterData = {
   // MAY
