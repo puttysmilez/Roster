@@ -14,23 +14,23 @@
     --muted:     #9096b0;
     --today-ring:#f59e42;
 
-    /* Pastel flight – sky blue */
-    --flight-bg:   #ddeeff;
-    --flight-bd:   #a8ccf0;
-    --flight-text: #2a6099;
-    --flight-cell: #eaf4ff;
+    /* Pastel flight – pink */
+    --flight-bg:   #ffd6e0;
+    --flight-bd:   #f5a8bc;
+    --flight-text: #a0325a;
+    --flight-cell: #fff0f4;
 
-    /* Pastel day off – mint green */
-    --off-bg:   #d6f5e8;
-    --off-bd:   #96ddb8;
-    --off-text: #1a7a4a;
-    --off-cell: #edfaf3;
+    /* Light gray – day off */
+    --off-bg:   #ebebeb;
+    --off-bd:   #d0d0d0;
+    --off-text: #999999;
+    --off-cell: #f5f5f5;
 
-    /* Pastel standby – peach/coral */
-    --reserve-bg:   #ffe4d6;
-    --reserve-bd:   #f5b89a;
-    --reserve-text: #b84c1e;
-    --reserve-cell: #fff1eb;
+    /* Light yellow – standby */
+    --reserve-bg:   #fff9c4;
+    --reserve-bd:   #f0d060;
+    --reserve-text: #8a6800;
+    --reserve-cell: #fffde8;
 
     /* Pastel training – lavender */
     --training-bg:   #ece6ff;
@@ -294,7 +294,8 @@
   }
 
   .modal-sector {
-    background: var(--bg);
+    background: #ffffff;
+    border: 1.5px solid var(--border);
     border-radius: 12px;
     padding: 14px 16px;
     margin-bottom: 10px;
@@ -368,7 +369,7 @@
   <header>
     <div class="header-left">
       <div class="eyebrow">✈ Flight Roster</div>
-      <h1>PUTTY <span>SMILEZ</span></h1>
+      <h1 style="color:#f5a8bc;">Putty Smilez</h1>
     </div>
     <div class="header-right">
       May &amp; June 2026
@@ -377,13 +378,13 @@
 
   <div class="legend">
     <div class="legend-item">
-      <div class="legend-dot" style="background:#4a90d9"></div> Flight
+      <div class="legend-dot" style="background:#f5a8bc"></div> Flight
     </div>
     <div class="legend-item">
-      <div class="legend-dot" style="background:#34b874"></div> Day Off
+      <div class="legend-dot" style="background:#aaaaaa"></div> Day Off
     </div>
     <div class="legend-item">
-      <div class="legend-dot" style="background:#e8784a"></div> Standby Duty (RG)
+      <div class="legend-dot" style="background:#f0d060"></div> Standby Duty (RG)
     </div>
     <div class="legend-item">
       <div class="legend-dot" style="background:#7c5cbf"></div> Training
@@ -503,17 +504,17 @@ const rosterData = {
   '2026-06-15': [{ type:'off', label:'Priority Day Off' }],
   '2026-06-16': [{ type:'off', label:'Day Off' }],
   '2026-06-17': [{ type:'off', label:'Day Off' }],
-  '2026-06-18': [{ type:'off', label:'Day Off' }],
-  '2026-06-19': [{ type:'flight', label:'BKK → HKG', dep:'1100L', arr:'1505L', duty:'CX0750', ac:'33B', block:'3:05', dutyStart:'0940L', dutyEnd:'1535L', dutyPeriod:'4:55' }],
+  '2026-06-18': [{ type:'flight', label:'BKK → HKG', dep:'1050L', arr:'1645L', duty:'CX0774', ac:'32Q', block:'3:55', dutyStart:'1050L', dutyEnd:'1645L', dutyPeriod:'5:55' }],
+  '2026-06-19': [
+    { type:'flight', label:'HKG → SIN', dep:'0715L', arr:'1200L', duty:'CX0759', ac:'35G', block:'3:45', dutyStart:'0715L' },
+    { type:'flight', label:'SIN → HKG', dep:'1325L', arr:'1735L', duty:'CX0758', ac:'35G', block:'4:10', dutyEnd:'1805L', dutyPeriod:'10:50' },
+  ],
   '2026-06-20': [
-    { type:'flight', label:'HKG → HKT', dep:'0805L', arr:'1050L', duty:'CX0771', ac:'32Q', block:'3:45', dutyStart:'0640L' },
-    { type:'flight', label:'HKT → HKG', dep:'1150L', arr:'1650L', duty:'CX0770', ac:'32Q', block:'4:00', dutyEnd:'1720L', dutyPeriod:'10:40' },
+    { type:'flight', label:'HKG → NGO', dep:'0845L', arr:'1340L', duty:'CX0536', ac:'33A', block:'3:55', dutyStart:'0845L' },
+    { type:'flight', label:'NGO → HKG', dep:'1610L', arr:'1930L', duty:'CX0539', ac:'33A', block:'4:20', dutyEnd:'2000L', dutyPeriod:'11:15' },
   ],
-  '2026-06-21': [
-    { type:'flight', label:'HKG → NGO', dep:'1010L', arr:'1505L', duty:'CX0536', ac:'35G', block:'3:55', dutyStart:'0845L' },
-    { type:'flight', label:'NGO → HKG', dep:'1610L', arr:'1930L', duty:'CX0539', ac:'35G', block:'4:20', dutyEnd:'2000L', dutyPeriod:'11:15' },
-  ],
-  '2026-06-22': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33J', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'4:55' }],
+  '2026-06-21': [{ type:'flight', label:'HKG → BKK', dep:'1035L', arr:'1430L', duty:'CX0653', ac:'33A', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'3:55' }],
+  '2026-06-22': [{ type:'off', label:'Day Off' }],
   '2026-06-23': [{ type:'off', label:'Day Off' }],
   '2026-06-24': [{ type:'off', label:'Day Off' }],
   '2026-06-25': [{ type:'off', label:'Day Off' }],
@@ -546,7 +547,7 @@ function typeIcon(t) {
   if (t === 'flight')   return '✈';
   if (t === 'reserve')  return '🔔';
   if (t === 'training') return '📚';
-  return '☀';
+  return '🏖️';
 }
 
 // Build destination summary — show only non-HKG stops
@@ -588,7 +589,7 @@ function openModal(dateStr, duties) {
     const dutyEnd = lastD.dutyEnd || '—';
     const dutyPeriod = lastD.dutyPeriod || '—';
 
-    html += `<div class="modal-sector" style="background:#f0f7ff; border:1.5px solid var(--flight-bd); margin-bottom:14px;">
+    html += `<div class="modal-sector" style="background:#fff0f4; border:1.5px solid var(--flight-bd); margin-bottom:14px;">
       <div class="modal-grid">
         <div class="modal-field"><label>Duty Start</label><span>${dutyStart}</span></div>
         <div class="modal-field"><label>Duty End</label><span>${dutyEnd}</span></div>
@@ -614,7 +615,7 @@ function openModal(dateStr, duties) {
 
   } else if (t === 'reserve') {
     const d0 = duties[0];
-    html += `<div class="modal-sector">
+    html += `<div class="modal-sector" style="background:#fffde8; border:1.5px solid #f0d060;">
       <div class="modal-grid">
         <div class="modal-field"><label>Duty Start</label><span>${d0.dutyStart || '—'}</span></div>
         <div class="modal-field"><label>Duty End</label><span>${d0.dutyEnd || '—'}</span></div>
@@ -624,7 +625,7 @@ function openModal(dateStr, duties) {
 
   } else if (t === 'training') {
     const d0 = duties[0];
-    html += `<div class="modal-sector">
+    html += `<div class="modal-sector" style="background:#f4f0ff; border:1.5px solid #c3aff5;">
       <div class="modal-grid">
         <div class="modal-field"><label>Start</label><span>${d0.dutyStart || '—'}</span></div>
         <div class="modal-field"><label>End</label><span>${d0.dutyEnd || '—'}</span></div>
@@ -633,7 +634,7 @@ function openModal(dateStr, duties) {
     </div>`;
 
   } else {
-    html += `<div class="modal-sector"><p style="color:var(--muted);font-weight:600;">Rest day — no duties scheduled.</p></div>`;
+    html += `<div class="modal-sector" style="background:#f5f5f5; border:1.5px solid #d0d0d0;"><p style="color:var(--muted);font-weight:600;">Rest day — no duties scheduled.</p></div>`;
   }
 
   modalBody.innerHTML = html;
