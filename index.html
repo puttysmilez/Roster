@@ -349,7 +349,20 @@
     margin: 10px 0;
   }
 
-  /* ── Mobile ──────────────────────────────────────────── */
+  .day-cell.birthday {
+    background: linear-gradient(135deg, #fff0f8, #fce4ff);
+    border-color: #f5a8d4;
+    box-shadow: 0 0 0 2px #f5a8d4;
+  }
+
+  .birthday-label {
+    font-size: 9px;
+    font-weight: 800;
+    color: #c45c9a;
+    letter-spacing: 0.5px;
+    margin-top: 3px;
+    text-align: center;
+  }
   @media(max-width: 600px) {
     header { flex-direction: column; align-items: flex-start; gap: 8px; }
     .header-right { text-align: left; }
@@ -372,7 +385,7 @@
       <h1 style="color:#f5a8bc;">Putty Smilez</h1>
     </div>
     <div class="header-right">
-      May &amp; June 2026
+      June 2026
     </div>
   </header>
 
@@ -389,14 +402,6 @@
     <div class="legend-item">
       <div class="legend-dot" style="background:#7c5cbf"></div> Training
     </div>
-  </div>
-
-  <div class="month-block">
-    <div class="month-header">
-      <h2>May 2026</h2>
-      <div class="line"></div>
-    </div>
-    <div class="calendar" id="may-calendar"></div>
   </div>
 
   <div class="month-block">
@@ -665,6 +670,7 @@ function renderMonth(containerId, year, month) {
     const cell = document.createElement('div');
     cell.className = 'day-cell';
     if (dateStr === TODAY) cell.classList.add('today');
+    if (dateStr === '2026-06-08') cell.classList.add('birthday');
     if (duties && duties.length) {
       cell.classList.add(cellClass(duties[0].type));
       cell.style.cursor = 'pointer';
@@ -675,6 +681,17 @@ function renderMonth(containerId, year, month) {
     num.className = 'day-num';
     num.textContent = d;
     cell.appendChild(num);
+
+    if (dateStr === '2026-06-08') {
+      const bday = document.createElement('div');
+      bday.innerHTML = '🎂';
+      bday.style.cssText = 'font-size:20px; text-align:center; margin: 4px 0 2px;';
+      cell.appendChild(bday);
+      const bdayLabel = document.createElement('div');
+      bdayLabel.className = 'birthday-label';
+      bdayLabel.textContent = '🎉 Happy Birthday!';
+      cell.appendChild(bdayLabel);
+    }
 
     if (duties && duties.length) {
       const t = duties[0].type;
@@ -703,7 +720,6 @@ function renderMonth(containerId, year, month) {
   }
 }
 
-renderMonth('may-calendar', 2026, 5);
 renderMonth('jun-calendar', 2026, 6);
 </script>
 </body>
