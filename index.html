@@ -363,6 +363,36 @@
     margin-top: 3px;
     text-align: center;
   }
+
+  /* ── Stats ───────────────────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .stat-card {
+    background: var(--white);
+    border: 1.5px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 10px;
+    text-align: center;
+  }
+
+  .stat-icon { font-size: 20px; margin-bottom: 6px; }
+  .stat-value { font-size: 22px; font-weight: 800; line-height: 1; margin-bottom: 4px; }
+  .stat-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+
+  .stat-card.card-flight  { border-color: var(--flight-bd);  background: var(--flight-cell); }
+  .stat-card.card-flight  .stat-value { color: var(--flight-text); }
+  .stat-card.card-hours   { border-color: #c3aff5; background: #f4f0ff; }
+  .stat-card.card-hours   .stat-value { color: #5b3bcc; }
+  .stat-card.card-off     { border-color: #d0d0d0; background: #f5f5f5; }
+  .stat-card.card-off     .stat-value { color: #888; }
+  .stat-card.card-standby { border-color: var(--reserve-bd); background: var(--reserve-cell); }
+  .stat-card.card-standby .stat-value { color: var(--reserve-text); }
+
   @media(max-width: 600px) {
     header { flex-direction: column; align-items: flex-start; gap: 8px; }
     .header-right { text-align: left; }
@@ -373,6 +403,7 @@
     .legend-item { font-size: 12px; }
     .modal { padding: 22px 18px 18px; }
     .modal-title { font-size: 18px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
@@ -383,9 +414,6 @@
     <div class="header-left">
       <div class="eyebrow">✈ Flight Roster</div>
       <h1 style="color:#f5a8bc;">Putty Smilez</h1>
-    </div>
-    <div class="header-right">
-      June 2026
     </div>
   </header>
 
@@ -404,12 +432,59 @@
     </div>
   </div>
 
+  <!-- Countdown -->
+  <div id="countdown-card" style="
+    background: linear-gradient(135deg, #fff0f4, #fce4ff);
+    border: 1.5px solid #f5a8bc;
+    border-radius: 16px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  ">
+    <div>
+      <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:2px; color:#c45c9a; margin-bottom:4px;">Next Duty</div>
+      <div id="countdown-route" style="font-size:18px; font-weight:800; color:#2d3142;">—</div>
+      <div id="countdown-date" style="font-size:12px; font-weight:600; color:#9096b0; margin-top:2px;">—</div>
+    </div>
+    <div style="text-align:right; flex-shrink:0;">
+      <div id="countdown-num" style="font-size:28px; font-weight:800; color:#f5a8bc; line-height:1; letter-spacing:1px;">—</div>
+      <div id="countdown-unit" style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#c45c9a; margin-top:2px;">—</div>
+    </div>
+  </div>
+
   <div class="month-block">
     <div class="month-header">
       <h2>June 2026</h2>
       <div class="line"></div>
     </div>
     <div class="calendar" id="jun-calendar"></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-grid">
+    <div class="stat-card card-flight">
+      <div class="stat-icon">✈️</div>
+      <div class="stat-value" id="stat-flights">—</div>
+      <div class="stat-label">Flights</div>
+    </div>
+    <div class="stat-card card-hours">
+      <div class="stat-icon">⏱️</div>
+      <div class="stat-value" id="stat-hours">—</div>
+      <div class="stat-label">Block Hours</div>
+    </div>
+    <div class="stat-card card-off">
+      <div class="stat-icon">🏖️</div>
+      <div class="stat-value" id="stat-off">—</div>
+      <div class="stat-label">Days Off</div>
+    </div>
+    <div class="stat-card card-standby">
+      <div class="stat-icon">🔔</div>
+      <div class="stat-value" id="stat-standby">—</div>
+      <div class="stat-label">Standby</div>
+    </div>
   </div>
 
 </div>
@@ -429,59 +504,6 @@ const today = new Date();
 const TODAY = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
 
 const rosterData = {
-  // MAY
-  '2026-05-01': [
-    { type:'flight', label:'HKG → KUL', dep:'0810L', arr:'1205L', duty:'CX0723', ac:'35G', block:'3:55', dutyStart:'0650L' },
-    { type:'flight', label:'KUL → HKG', dep:'1310L', arr:'1725L', duty:'CX0722', ac:'35G', block:'4:15', dutyEnd:'1755L', dutyPeriod:'11:05' },
-  ],
-  '2026-05-02': [
-    { type:'flight', label:'HKG → NGO', dep:'1010L', arr:'1505L', duty:'CX0536', ac:'33J', block:'3:55', dutyStart:'0850L' },
-    { type:'flight', label:'NGO → HKG', dep:'1610L', arr:'1930L', duty:'CX0539', ac:'33J', block:'4:20', dutyEnd:'2000L', dutyPeriod:'11:10' },
-  ],
-  '2026-05-03': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33E', block:'3:00', dutyStart:'1040L', dutyEnd:'1430L', dutyPeriod:'3:50' }],
-  '2026-05-04': [{ type:'off', label:'Day Off' }],
-  '2026-05-05': [{ type:'off', label:'Day Off' }],
-  '2026-05-06': [{ type:'off', label:'Day Off' }],
-  '2026-05-07': [{ type:'off', label:'Day Off' }],
-  '2026-05-08': [{ type:'reserve', label:'Standby RG100', dutyStart:'0400L', dutyEnd:'0800L', period:'4:00' }],
-  '2026-05-09': [{ type:'reserve', label:'Standby RG100', dutyStart:'0400L', dutyEnd:'0800L', period:'4:00' }],
-  '2026-05-10': [{ type:'off', label:'Day Off' }],
-  '2026-05-11': [{ type:'off', label:'Day Off' }],
-  '2026-05-12': [{ type:'flight', label:'BKK → HKG', dep:'0735L', arr:'1135L', duty:'CX0700', ac:'33P', block:'3:00', dutyStart:'0615L', dutyEnd:'1205L', dutyPeriod:'4:50' }],
-  '2026-05-13': [
-    { type:'flight', label:'HKG → SIN', dep:'0840L', arr:'1225L', duty:'CX0759', ac:'35G', block:'3:45', dutyStart:'0720L' },
-    { type:'flight', label:'SIN → HKG', dep:'1325L', arr:'1735L', duty:'CX0758', ac:'35G', block:'4:10', dutyEnd:'1805L', dutyPeriod:'10:45' },
-  ],
-  '2026-05-14': [
-    { type:'flight', label:'HKG → DPS', dep:'1000L', arr:'1500L', duty:'CX0785', ac:'77P', block:'5:00', dutyStart:'0840L' },
-    { type:'flight', label:'DPS → HKG', dep:'1615L', arr:'2125L', duty:'CX0784', ac:'77P', block:'5:10', dutyEnd:'2155L', dutyPeriod:'13:15' },
-  ],
-  '2026-05-15': [{ type:'flight', label:'HKG → BKK', dep:'1605L', arr:'1800L', duty:'CX0701', ac:'33J', block:'2:55', dutyStart:'1445L', dutyEnd:'1830L', dutyPeriod:'4:45' }],
-  '2026-05-16': [{ type:'off', label:'Day Off' }],
-  '2026-05-17': [{ type:'off', label:'Day Off' }],
-  '2026-05-18': [{ type:'flight', label:'BKK → HKG', dep:'1100L', arr:'1505L', duty:'CX0750', ac:'33P', block:'3:05', dutyStart:'0940L', dutyEnd:'1535L', dutyPeriod:'4:55' }],
-  '2026-05-19': [{ type:'training', label:'AE211 Training', dutyStart:'0830L', dutyEnd:'1730L', period:'9:00' }],
-  '2026-05-20': [{ type:'training', label:'AE212 Training', dutyStart:'0830L', dutyEnd:'1730L', period:'9:00' }],
-  '2026-05-21': [{ type:'training', label:'2CO00 Training', dutyStart:'0900L', dutyEnd:'1730L', period:'8:30' }],
-  '2026-05-22': [{ type:'off', label:'Day Off' }],
-  '2026-05-23': [
-    { type:'flight', label:'HKG → WNZ', dep:'0830L', arr:'1040L', duty:'CX0384', ac:'32Q', block:'2:10', dutyStart:'0710L' },
-    { type:'flight', label:'WNZ → HKG', dep:'1150L', arr:'1400L', duty:'CX0385', ac:'32Q', block:'2:10', dutyEnd:'1430L', dutyPeriod:'7:20' },
-  ],
-  '2026-05-24': [{ type:'flight', label:'HKG → BKK', dep:'0800L', arr:'1000L', duty:'CX0705', ac:'33P', block:'3:00', dutyStart:'0640L', dutyEnd:'1030L', dutyPeriod:'4:50' }],
-  '2026-05-25': [{ type:'off', label:'Day Off' }],
-  '2026-05-26': [{ type:'off', label:'Day Off' }],
-  '2026-05-27': [{ type:'off', label:'Day Off' }],
-  '2026-05-28': [{ type:'reserve', label:'Standby RG300', dutyStart:'0730L', dutyEnd:'1130L', period:'4:00' }],
-  '2026-05-29': [{ type:'flight', label:'BKK → HKG', dep:'0735L', arr:'1135L', duty:'CX0700', ac:'33K', block:'3:00', dutyStart:'0615L', dutyEnd:'1205L', dutyPeriod:'4:50' }],
-  '2026-05-30': [
-    { type:'flight', label:'HKG → HKT', dep:'0805L', arr:'1050L', duty:'CX0771', ac:'32Q', block:'3:45', dutyStart:'0645L' },
-    { type:'flight', label:'HKT → HKG', dep:'1150L', arr:'1650L', duty:'CX0770', ac:'32Q', block:'4:00', dutyEnd:'1720L', dutyPeriod:'10:35' },
-  ],
-  '2026-05-31': [
-    { type:'flight', label:'HKG → CGK', dep:'0910L', arr:'1310L', duty:'CX0777', ac:'33E', block:'5:00', dutyStart:'0750L' },
-    { type:'flight', label:'CGK → HKG', dep:'1420L', arr:'2030L', duty:'CX0776', ac:'33E', block:'5:10', dutyEnd:'2100L', dutyPeriod:'13:10' },
-  ],
   // JUN
   '2026-06-01': [{ type:'flight', label:'HKG → BKK', dep:'1430L', arr:'1630L', duty:'CX0751', ac:'32Q', block:'3:00', dutyStart:'1305L', dutyEnd:'1700L', dutyPeriod:'4:55' }],
   '2026-06-02': [{ type:'off', label:'Day Off' }],
@@ -721,6 +743,118 @@ function renderMonth(containerId, year, month) {
 }
 
 renderMonth('jun-calendar', 2026, 6);
+
+// ── Calculate Stats ───────────────────────────────────────
+function calcStats() {
+  let flights = 0, totalMins = 0, daysOff = 0, standby = 0;
+
+  Object.values(rosterData).forEach(entries => {
+    if (!entries) return;
+    const t = entries[0].type;
+    if (t === 'flight') {
+      entries.forEach(e => {
+        flights++;
+        if (e.block) {
+          const parts = e.block.split(':');
+          totalMins += parseInt(parts[0]) * 60 + parseInt(parts[1]);
+        }
+      });
+    } else if (t === 'off') {
+      daysOff++;
+    } else if (t === 'reserve') {
+      standby++;
+    }
+  });
+
+  const hrs = Math.floor(totalMins / 60);
+  const mins = totalMins % 60;
+
+  document.getElementById('stat-flights').textContent = flights;
+  document.getElementById('stat-hours').textContent = `${hrs}:${String(mins).padStart(2,'0')}`;
+  document.getElementById('stat-off').textContent = daysOff;
+  document.getElementById('stat-standby').textContent = standby;
+}
+
+calcStats();
+
+// ── Countdown to next duty (real-time) ───────────────────
+function getNextDuty() {
+  const now = new Date();
+  const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const sorted = Object.keys(rosterData).sort();
+
+  for (const dateStr of sorted) {
+    const entry = rosterData[dateStr];
+    if (!entry) continue;
+    if (entry[0].type === 'off') continue;
+    if (dateStr >= todayStr) return { dateStr, entry };
+  }
+  return null;
+}
+
+function calcCountdown() {
+  const next = getNextDuty();
+  if (!next) { document.getElementById('countdown-card').style.display = 'none'; return; }
+
+  const { dateStr, entry } = next;
+  const t = entry[0].type;
+
+  // Build route label
+  let route = '';
+  if (t === 'flight') {
+    const dests = entry.map(s => s.label.split(' → ')[1]).filter(s => s !== 'HKG');
+    route = '✈️ ' + (dests.length ? dests.join(', ') : entry[entry.length-1].label.split(' → ')[1]);
+    if (entry[0].dutyStart) route += `  ·  ${entry[0].dutyStart}`;
+  } else if (t === 'reserve') route = `🔔 ${entry[0].label}`;
+  else if (t === 'training') route = `📚 ${entry[0].label}`;
+
+  const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const d = new Date(dateStr + 'T00:00:00');
+  const dateLabel = `${dayNames[d.getDay()]}, ${d.getDate()} ${monthNames[d.getMonth()]}`;
+
+  document.getElementById('countdown-route').textContent = route;
+  document.getElementById('countdown-date').textContent = dateLabel;
+
+  // Get duty start time for countdown target
+  const dutyStart = entry[0].dutyStart || '0000L';
+  const dutyHH = parseInt(dutyStart.substring(0,2));
+  const dutyMM = parseInt(dutyStart.substring(2,4));
+  const target = new Date(dateStr + 'T00:00:00');
+  target.setHours(dutyHH, dutyMM, 0, 0);
+
+  function tick() {
+    const now = new Date();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      document.getElementById('countdown-num').textContent = '🔥';
+      document.getElementById('countdown-unit').textContent = 'Duty time!';
+      return;
+    }
+
+    const totalSecs = Math.floor(diff / 1000);
+    const days  = Math.floor(totalSecs / 86400);
+    const hrs   = Math.floor((totalSecs % 86400) / 3600);
+    const mins  = Math.floor((totalSecs % 3600) / 60);
+    const secs  = totalSecs % 60;
+
+    const pad = n => String(n).padStart(2,'0');
+
+    if (days > 0) {
+      document.getElementById('countdown-num').textContent = `${days}d ${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+      document.getElementById('countdown-unit').textContent = 'days · hrs · min · sec';
+    } else {
+      document.getElementById('countdown-num').textContent = `${pad(hrs)}:${pad(mins)}:${pad(secs)}`;
+      document.getElementById('countdown-unit').textContent = 'hrs · min · sec';
+    }
+  }
+
+  tick();
+  setInterval(tick, 1000);
+}
+
+calcCountdown();
 </script>
 </body>
 </html>
