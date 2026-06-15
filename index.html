@@ -95,6 +95,7 @@
     flex-wrap: wrap;
     gap: 10px 16px;
     margin-bottom: 32px;
+    justify-content: center;
   }
 
   .legend-item {
@@ -623,6 +624,12 @@ function openModal(dateStr, duties) {
     </div>`;
 
     duties.forEach((d, i) => {
+      const flightNum = d.duty ? d.duty.replace('CX0','CX').replace('CX00','CX') : '';
+      const dateObj = new Date(dateStr + 'T00:00:00');
+      const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      const searchDate = `${dateObj.getDate()} ${monthNames[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+      const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(d.duty + ' flight ' + searchDate)}`;
+
       html += `<div class="modal-sector">
         <div class="modal-sector-header">
           <span class="modal-sector-badge type-flight">Sector ${i+1}</span>
@@ -635,6 +642,12 @@ function openModal(dateStr, duties) {
           <div class="modal-field"><label>Arrival</label><span>${d.arr}</span></div>
           <div class="modal-field"><label>Block</label><span>${d.block}</span></div>
         </div>
+        <a href="${googleUrl}" target="_blank" style="
+          display:block; margin-top:10px; text-align:center;
+          background:#fff0f4; border:1.5px solid #f5a8bc;
+          color:#a0325a; font-size:12px; font-weight:800;
+          padding:8px; border-radius:8px; text-decoration:none;
+        ">🛩️ Track Flight ${d.duty}</a>
       </div>`;
     });
 
