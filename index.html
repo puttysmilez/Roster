@@ -462,26 +462,58 @@
     <div class="calendar" id="jun-calendar"></div>
   </div>
 
-  <!-- Stats -->
-  <div class="stats-grid">
+  <!-- June Stats -->
+  <div class="stats-grid" style="margin-bottom:36px;">
     <div class="stat-card card-flight">
       <div class="stat-icon">✈️</div>
-      <div class="stat-value" id="stat-flights">—</div>
+      <div class="stat-value" id="jun-stat-flights">—</div>
       <div class="stat-label">Flights</div>
     </div>
     <div class="stat-card card-hours">
       <div class="stat-icon">⏱️</div>
-      <div class="stat-value" id="stat-hours">—</div>
+      <div class="stat-value" id="jun-stat-hours">—</div>
       <div class="stat-label">Block Hours</div>
     </div>
     <div class="stat-card card-off">
       <div class="stat-icon">🏖️</div>
-      <div class="stat-value" id="stat-off">—</div>
+      <div class="stat-value" id="jun-stat-off">—</div>
       <div class="stat-label">Days Off</div>
     </div>
     <div class="stat-card card-standby">
       <div class="stat-icon">🔔</div>
-      <div class="stat-value" id="stat-standby">—</div>
+      <div class="stat-value" id="jun-stat-standby">—</div>
+      <div class="stat-label">Standby</div>
+    </div>
+  </div>
+
+  <div class="month-block">
+    <div class="month-header">
+      <h2>July 2026</h2>
+      <div class="line"></div>
+    </div>
+    <div class="calendar" id="jul-calendar"></div>
+  </div>
+
+  <!-- July Stats -->
+  <div class="stats-grid">
+    <div class="stat-card card-flight">
+      <div class="stat-icon">✈️</div>
+      <div class="stat-value" id="jul-stat-flights">—</div>
+      <div class="stat-label">Flights</div>
+    </div>
+    <div class="stat-card card-hours">
+      <div class="stat-icon">⏱️</div>
+      <div class="stat-value" id="jul-stat-hours">—</div>
+      <div class="stat-label">Block Hours</div>
+    </div>
+    <div class="stat-card card-off">
+      <div class="stat-icon">🏖️</div>
+      <div class="stat-value" id="jul-stat-off">—</div>
+      <div class="stat-label">Days Off</div>
+    </div>
+    <div class="stat-card card-standby">
+      <div class="stat-icon">🔔</div>
+      <div class="stat-value" id="jul-stat-standby">—</div>
       <div class="stat-label">Standby</div>
     </div>
   </div>
@@ -555,6 +587,53 @@ const rosterData = {
     { type:'flight', label:'HKG → NRT', dep:'0815L', arr:'1340L', duty:'CX0526', ac:'35G', block:'4:25', dutyStart:'0650L' },
     { type:'flight', label:'NRT → HKG', dep:'1450L', arr:'1850L', duty:'CX0527', ac:'35G', block:'5:00', dutyEnd:'1920L', dutyPeriod:'12:30' },
   ],
+};
+
+const rosterDataJul = {
+  // JUL
+  '2026-07-01': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33J', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'4:55' }],
+  '2026-07-02': [{ type:'off', label:'Day Off' }],
+  '2026-07-03': [{ type:'off', label:'Day Off' }],
+  '2026-07-04': [{ type:'off', label:'Day Off' }],
+  '2026-07-05': [{ type:'reserve', label:'Standby RG100', dutyStart:'0400L', dutyEnd:'0800L', period:'4:00' }],
+  '2026-07-06': [{ type:'reserve', label:'Standby RG100', dutyStart:'0400L', dutyEnd:'0800L', period:'4:00' }],
+  '2026-07-07': [{ type:'off', label:'Day Off' }],
+  '2026-07-08': [{ type:'off', label:'Day Off' }],
+  '2026-07-09': [{ type:'reserve', label:'Standby RG800', dutyStart:'1100L', dutyEnd:'1700L', period:'6:00' }],
+  '2026-07-10': [{ type:'flight', label:'BKK → HKG', dep:'1625L', arr:'2030L', duty:'CX0706', ac:'32Q', block:'3:05', dutyStart:'1505L', dutyEnd:'2100L', dutyPeriod:'4:55' }],
+  '2026-07-11': [
+    { type:'flight', label:'HKG → TPE', dep:'1310L', arr:'1510L', duty:'CX0400', ac:'33E', block:'2:00', dutyStart:'1145L' },
+    { type:'flight', label:'TPE → HKG', dep:'1610L', arr:'1810L', duty:'CX0443', ac:'33E', block:'2:00', dutyEnd:'1840L', dutyPeriod:'6:55' },
+  ],
+  '2026-07-12': [
+    { type:'flight', label:'HKG → FUK', dep:'1100L', arr:'1530L', duty:'CX0588', ac:'33E', block:'3:30', dutyStart:'0935L' },
+    { type:'flight', label:'FUK → HKG', dep:'1640L', arr:'1925L', duty:'CX0589', ac:'33E', block:'3:45', dutyEnd:'1955L', dutyPeriod:'10:20' },
+  ],
+  '2026-07-13': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33E', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'4:55' }],
+  '2026-07-14': [{ type:'off', label:'Day Off' }],
+  '2026-07-15': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-16': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-17': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-18': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-19': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-20': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-21': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-22': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-23': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-24': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-25': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-26': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-27': [{ type:'off', label:'Annual Leave' }],
+  '2026-07-28': [{ type:'flight', label:'BKK → HKG', dep:'0735L', arr:'1135L', duty:'CX0700', ac:'33E', block:'3:00', dutyStart:'0615L', dutyEnd:'1205L', dutyPeriod:'4:50' }],
+  '2026-07-29': [
+    { type:'flight', label:'HKG → NRT', dep:'0815L', arr:'1340L', duty:'CX0526', ac:'35G', block:'4:25', dutyStart:'0650L' },
+    { type:'flight', label:'NRT → HKG', dep:'1450L', arr:'1850L', duty:'CX0527', ac:'35G', block:'5:00', dutyEnd:'1920L', dutyPeriod:'12:30' },
+  ],
+  '2026-07-30': [
+    { type:'flight', label:'HKG → CGO', dep:'1245L', arr:'1520L', duty:'CX0952', ac:'33B', block:'2:35', dutyStart:'1120L' },
+    { type:'flight', label:'CGO → HKG', dep:'1630L', arr:'1925L', duty:'CX0957', ac:'33B', block:'2:55', dutyEnd:'1955L', dutyPeriod:'8:35' },
+  ],
+  '2026-07-31': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33A', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'4:55' }],
 };
 
 function typeClass(t) {
@@ -679,7 +758,7 @@ function openModal(dateStr, duties) {
   overlay.classList.add('open');
 }
 
-function renderMonth(containerId, year, month) {
+function renderMonth(containerId, year, month, data) {
   const el = document.getElementById(containerId);
   ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
     const lbl = document.createElement('div');
@@ -698,7 +777,7 @@ function renderMonth(containerId, year, month) {
   const daysInMonth = new Date(year, month, 0).getDate();
   for (let d = 1; d <= daysInMonth; d++) {
     const dateStr = `${year}-${String(month).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const duties = rosterData[dateStr];
+    const duties = data[dateStr];
 
     const cell = document.createElement('div');
     cell.className = 'day-cell';
@@ -753,13 +832,13 @@ function renderMonth(containerId, year, month) {
   }
 }
 
-renderMonth('jun-calendar', 2026, 6);
+renderMonth('jun-calendar', 2026, 6, rosterData);
+renderMonth('jul-calendar', 2026, 7, rosterDataJul);
 
 // ── Calculate Stats ───────────────────────────────────────
-function calcStats() {
+function calcStats(data, prefix) {
   let flights = 0, totalMins = 0, daysOff = 0, standby = 0;
-
-  Object.values(rosterData).forEach(entries => {
+  Object.values(data).forEach(entries => {
     if (!entries) return;
     const t = entries[0].type;
     if (t === 'flight') {
@@ -776,26 +855,26 @@ function calcStats() {
       standby++;
     }
   });
-
-  const hrs = Math.floor(totalMins / 60);
+  const hrs  = Math.floor(totalMins / 60);
   const mins = totalMins % 60;
-
-  document.getElementById('stat-flights').textContent = flights;
-  document.getElementById('stat-hours').textContent = `${hrs}:${String(mins).padStart(2,'0')}`;
-  document.getElementById('stat-off').textContent = daysOff;
-  document.getElementById('stat-standby').textContent = standby;
+  document.getElementById(`${prefix}-stat-flights`).textContent  = flights;
+  document.getElementById(`${prefix}-stat-hours`).textContent    = `${hrs}:${String(mins).padStart(2,'0')}`;
+  document.getElementById(`${prefix}-stat-off`).textContent      = daysOff;
+  document.getElementById(`${prefix}-stat-standby`).textContent  = standby;
 }
 
-calcStats();
+calcStats(rosterData, 'jun');
+calcStats(rosterDataJul, 'jul');
 
 // ── Countdown to next duty (real-time) ───────────────────
 function getNextDuty() {
   const now = new Date();
   const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-  const sorted = Object.keys(rosterData).sort();
+  const combined = { ...rosterData, ...rosterDataJul };
+  const sorted = Object.keys(combined).sort();
 
   for (const dateStr of sorted) {
-    const entry = rosterData[dateStr];
+    const entry = combined[dateStr];
     if (!entry) continue;
     if (entry[0].type === 'off') continue;
     if (dateStr >= todayStr) return { dateStr, entry };
