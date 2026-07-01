@@ -369,6 +369,7 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     margin-top: 20px;
+    text-align: center;
   }
 
   .stat-card {
@@ -451,38 +452,6 @@
     <div style="text-align:right; flex-shrink:0;">
       <div id="countdown-num" style="font-size:28px; font-weight:800; color:#f5a8bc; line-height:1; letter-spacing:1px;">—</div>
       <div id="countdown-unit" style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:#c45c9a; margin-top:2px;">—</div>
-    </div>
-  </div>
-
-  <div class="month-block">
-    <div class="month-header">
-      <h2>June 2026</h2>
-      <div class="line"></div>
-    </div>
-    <div class="calendar" id="jun-calendar"></div>
-  </div>
-
-  <!-- June Stats -->
-  <div class="stats-grid" style="margin-bottom:36px;">
-    <div class="stat-card card-flight">
-      <div class="stat-icon">✈️</div>
-      <div class="stat-value" id="jun-stat-flights">—</div>
-      <div class="stat-label">Flights</div>
-    </div>
-    <div class="stat-card card-hours">
-      <div class="stat-icon">⏱️</div>
-      <div class="stat-value" id="jun-stat-hours">—</div>
-      <div class="stat-label">Block Hours</div>
-    </div>
-    <div class="stat-card card-off">
-      <div class="stat-icon">🏖️</div>
-      <div class="stat-value" id="jun-stat-off">—</div>
-      <div class="stat-label">Days Off</div>
-    </div>
-    <div class="stat-card card-standby">
-      <div class="stat-icon">🔔</div>
-      <div class="stat-value" id="jun-stat-standby">—</div>
-      <div class="stat-label">Standby</div>
     </div>
   </div>
 
@@ -832,7 +801,6 @@ function renderMonth(containerId, year, month, data) {
   }
 }
 
-renderMonth('jun-calendar', 2026, 6, rosterData);
 renderMonth('jul-calendar', 2026, 7, rosterDataJul);
 
 // ── Calculate Stats ───────────────────────────────────────
@@ -863,7 +831,6 @@ function calcStats(data, prefix) {
   document.getElementById(`${prefix}-stat-standby`).textContent  = standby;
 }
 
-calcStats(rosterData, 'jun');
 calcStats(rosterDataJul, 'jul');
 
 // ── Countdown to next duty (real-time) ───────────────────
