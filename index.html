@@ -487,6 +487,38 @@
     </div>
   </div>
 
+  <div class="month-block" style="margin-top:36px;">
+    <div class="month-header">
+      <h2>August 2026</h2>
+      <div class="line"></div>
+    </div>
+    <div class="calendar" id="aug-calendar"></div>
+  </div>
+
+  <!-- August Stats -->
+  <div class="stats-grid">
+    <div class="stat-card card-flight">
+      <div class="stat-icon">✈️</div>
+      <div class="stat-value" id="aug-stat-flights">—</div>
+      <div class="stat-label">Flights</div>
+    </div>
+    <div class="stat-card card-hours">
+      <div class="stat-icon">⏱️</div>
+      <div class="stat-value" id="aug-stat-hours">—</div>
+      <div class="stat-label">Block Hours</div>
+    </div>
+    <div class="stat-card card-off">
+      <div class="stat-icon">🏖️</div>
+      <div class="stat-value" id="aug-stat-off">—</div>
+      <div class="stat-label">Days Off</div>
+    </div>
+    <div class="stat-card card-standby">
+      <div class="stat-icon">🔔</div>
+      <div class="stat-value" id="aug-stat-standby">—</div>
+      <div class="stat-label">Standby</div>
+    </div>
+  </div>
+
 </div>
 
 <!-- Modal -->
@@ -559,8 +591,7 @@ const rosterData = {
 };
 
 const rosterDataJul = {
-  // JUL
-  '2026-07-01': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33J', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'4:55' }],
+  '2026-07-01': [{ type:'flight', label:'HKG → BKK', dep:'1303L', arr:'1510L', duty:'CX0653', ac:'33A', block:'3:07', dutyStart:'1105L', dutyEnd:'1540L', dutyPeriod:'5:35' }],
   '2026-07-02': [{ type:'off', label:'Day Off' }],
   '2026-07-03': [{ type:'off', label:'Day Off' }],
   '2026-07-04': [{ type:'off', label:'Day Off' }],
@@ -569,16 +600,13 @@ const rosterDataJul = {
   '2026-07-07': [{ type:'off', label:'Day Off' }],
   '2026-07-08': [{ type:'off', label:'Day Off' }],
   '2026-07-09': [{ type:'reserve', label:'Standby RG800', dutyStart:'1100L', dutyEnd:'1700L', period:'6:00' }],
-  '2026-07-10': [{ type:'flight', label:'BKK → HKG', dep:'1625L', arr:'2030L', duty:'CX0706', ac:'32Q', block:'3:05', dutyStart:'1505L', dutyEnd:'2100L', dutyPeriod:'4:55' }],
-  '2026-07-11': [
-    { type:'flight', label:'HKG → TPE', dep:'1310L', arr:'1510L', duty:'CX0400', ac:'33E', block:'2:00', dutyStart:'1145L' },
-    { type:'flight', label:'TPE → HKG', dep:'1610L', arr:'1810L', duty:'CX0443', ac:'33E', block:'2:00', dutyEnd:'1840L', dutyPeriod:'6:55' },
-  ],
+  '2026-07-10': [{ type:'flight', label:'BKK → HKG', dep:'1635L', arr:'2030L', duty:'CX0706', ac:'32Q', block:'2:55', dutyStart:'1505L', dutyEnd:'2100L', dutyPeriod:'4:55' }],
+  '2026-07-11': [{ type:'off', label:'Layover' }],
   '2026-07-12': [
-    { type:'flight', label:'HKG → FUK', dep:'1100L', arr:'1530L', duty:'CX0588', ac:'33E', block:'3:30', dutyStart:'0935L' },
-    { type:'flight', label:'FUK → HKG', dep:'1640L', arr:'1925L', duty:'CX0589', ac:'33E', block:'3:45', dutyEnd:'1955L', dutyPeriod:'10:20' },
+    { type:'flight', label:'HKG → FUK', dep:'1100L', arr:'1514L', duty:'CX0588', ac:'33E', block:'3:14', dutyStart:'0935L' },
+    { type:'flight', label:'FUK → HKG', dep:'1630L', arr:'1901L', duty:'CX0589', ac:'33E', block:'3:31', dutyEnd:'1931L', dutyPeriod:'9:56' },
   ],
-  '2026-07-13': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33E', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'4:55' }],
+  '2026-07-13': [{ type:'flight', label:'HKG → BKK', dep:'1144L', arr:'1334L', duty:'CX0653', ac:'33E', block:'2:50', dutyStart:'1035L', dutyEnd:'1404L', dutyPeriod:'4:29' }],
   '2026-07-14': [{ type:'off', label:'Day Off' }],
   '2026-07-15': [{ type:'off', label:'Annual Leave' }],
   '2026-07-16': [{ type:'off', label:'Annual Leave' }],
@@ -602,7 +630,59 @@ const rosterDataJul = {
     { type:'flight', label:'HKG → CGO', dep:'1245L', arr:'1520L', duty:'CX0952', ac:'33B', block:'2:35', dutyStart:'1120L' },
     { type:'flight', label:'CGO → HKG', dep:'1630L', arr:'1925L', duty:'CX0957', ac:'33B', block:'2:55', dutyEnd:'1955L', dutyPeriod:'8:35' },
   ],
-  '2026-07-31': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33A', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'4:55' }],
+  '2026-07-31': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'35G', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'4:55' }],
+};
+
+const rosterDataAug = {
+  '2026-08-01': [{ type:'off', label:'Day Off' }],
+  '2026-08-02': [{ type:'off', label:'Day Off' }],
+  '2026-08-03': [{ type:'off', label:'Day Off' }],
+  '2026-08-04': [{ type:'off', label:'Day Off' }],
+  '2026-08-05': [{ type:'off', label:'Day Off' }],
+  '2026-08-06': [{ type:'off', label:'Day Off' }],
+  '2026-08-07': [{ type:'off', label:'Day Off' }],
+  '2026-08-08': [{ type:'reserve', label:'Standby RG300', dutyStart:'0730L', dutyEnd:'1130L', period:'4:00' }],
+  '2026-08-09': [{ type:'flight', label:'BKK → HKG', dep:'0735L', arr:'1135L', duty:'CX0700', ac:'33J', block:'3:00', dutyStart:'0615L', dutyEnd:'1205L', dutyPeriod:'4:50' }],
+  '2026-08-10': [
+    { type:'flight', label:'HKG → NRT', dep:'0815L', arr:'1340L', duty:'CX0526', ac:'35G', block:'4:25', dutyStart:'0650L' },
+    { type:'flight', label:'NRT → HKG', dep:'1450L', arr:'1850L', duty:'CX0527', ac:'35G', block:'5:00', dutyEnd:'1920L', dutyPeriod:'12:30' },
+  ],
+  '2026-08-11': [
+    { type:'flight', label:'HKG → SIN', dep:'1115L', arr:'1505L', duty:'CX0739', ac:'35G', block:'3:50', dutyStart:'0950L' },
+    { type:'flight', label:'SIN → HKG', dep:'1605L', arr:'2010L', duty:'CX0734', ac:'35G', block:'4:05', dutyEnd:'2040L', dutyPeriod:'10:50' },
+  ],
+  '2026-08-12': [{ type:'flight', label:'HKG → BKK', dep:'1320L', arr:'1525L', duty:'CX0775', ac:'32Q', block:'3:05', dutyStart:'1155L', dutyEnd:'1555L', dutyPeriod:'5:00' }],
+  '2026-08-13': [{ type:'off', label:'Day Off' }],
+  '2026-08-14': [{ type:'off', label:'Day Off' }],
+  '2026-08-15': [{ type:'off', label:'Day Off' }],
+  '2026-08-16': [{ type:'off', label:'Day Off' }],
+  '2026-08-17': [{ type:'off', label:'Day Off' }],
+  '2026-08-18': [{ type:'flight', label:'BKK → HKG', dep:'1100L', arr:'1505L', duty:'CX0750', ac:'33P', block:'3:05', dutyStart:'0940L', dutyEnd:'1535L', dutyPeriod:'4:55' }],
+  '2026-08-19': [
+    { type:'flight', label:'HKG → KTI', dep:'0835L', arr:'1015L', duty:'CX0607', ac:'33P', block:'2:40', dutyStart:'0710L' },
+    { type:'flight', label:'KTI → HKG', dep:'1125L', arr:'1515L', duty:'CX0608', ac:'33P', block:'2:50', dutyEnd:'1545L', dutyPeriod:'8:35' },
+  ],
+  '2026-08-20': [
+    { type:'flight', label:'HKG → NRT', dep:'0815L', arr:'1340L', duty:'CX0526', ac:'35G', block:'4:25', dutyStart:'0650L' },
+    { type:'flight', label:'NRT → HKG', dep:'1450L', arr:'1850L', duty:'CX0527', ac:'35G', block:'5:00', dutyEnd:'1920L', dutyPeriod:'12:30' },
+  ],
+  '2026-08-21': [{ type:'flight', label:'HKG → BKK', dep:'1200L', arr:'1400L', duty:'CX0653', ac:'33J', block:'3:00', dutyStart:'1035L', dutyEnd:'1430L', dutyPeriod:'4:55' }],
+  '2026-08-22': [{ type:'off', label:'Day Off' }],
+  '2026-08-23': [{ type:'off', label:'Day Off' }],
+  '2026-08-24': [{ type:'flight', label:'BKK → HKG', dep:'0735L', arr:'1135L', duty:'CX0700', ac:'33A', block:'3:00', dutyStart:'0615L', dutyEnd:'1205L', dutyPeriod:'4:50' }],
+  '2026-08-25': [
+    { type:'flight', label:'HKG → NRT', dep:'0815L', arr:'1340L', duty:'CX0526', ac:'35G', block:'4:25', dutyStart:'0650L' },
+    { type:'flight', label:'NRT → HKG', dep:'1450L', arr:'1850L', duty:'CX0527', ac:'35G', block:'5:00', dutyEnd:'1920L', dutyPeriod:'12:30' },
+  ],
+  '2026-08-26': [
+    { type:'flight', label:'HKG → KUL', dep:'1240L', arr:'1640L', duty:'CX0725', ac:'33E', block:'4:00', dutyStart:'1115L' },
+    { type:'flight', label:'KUL → HKG', dep:'1740L', arr:'2200L', duty:'CX0724', ac:'33E', block:'4:20', dutyEnd:'2230L', dutyPeriod:'11:15' },
+  ],
+  '2026-08-27': [{ type:'flight', label:'HKG → BKK', dep:'1430L', arr:'1630L', duty:'CX0751', ac:'32Q', block:'3:00', dutyStart:'1305L', dutyEnd:'1700L', dutyPeriod:'4:55' }],
+  '2026-08-28': [{ type:'off', label:'Day Off' }],
+  '2026-08-29': [{ type:'off', label:'Day Off' }],
+  '2026-08-30': [{ type:'off', label:'Day Off' }],
+  '2026-08-31': [{ type:'off', label:'Day Off' }],
 };
 
 function typeClass(t) {
@@ -802,6 +882,7 @@ function renderMonth(containerId, year, month, data) {
 }
 
 renderMonth('jul-calendar', 2026, 7, rosterDataJul);
+renderMonth('aug-calendar', 2026, 8, rosterDataAug);
 
 // ── Calculate Stats ───────────────────────────────────────
 function calcStats(data, prefix) {
@@ -832,12 +913,13 @@ function calcStats(data, prefix) {
 }
 
 calcStats(rosterDataJul, 'jul');
+calcStats(rosterDataAug, 'aug');
 
 // ── Countdown to next duty (real-time) ───────────────────
 function getNextDuty() {
   const now = new Date();
   const todayStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-  const combined = { ...rosterData, ...rosterDataJul };
+  const combined = { ...rosterData, ...rosterDataJul, ...rosterDataAug };
   const sorted = Object.keys(combined).sort();
 
   for (const dateStr of sorted) {
