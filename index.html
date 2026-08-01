@@ -455,38 +455,6 @@
     </div>
   </div>
 
-  <div class="month-block">
-    <div class="month-header">
-      <h2>July 2026</h2>
-      <div class="line"></div>
-    </div>
-    <div class="calendar" id="jul-calendar"></div>
-  </div>
-
-  <!-- July Stats -->
-  <div class="stats-grid">
-    <div class="stat-card card-flight">
-      <div class="stat-icon">✈️</div>
-      <div class="stat-value" id="jul-stat-flights">—</div>
-      <div class="stat-label">Flights</div>
-    </div>
-    <div class="stat-card card-hours">
-      <div class="stat-icon">⏱️</div>
-      <div class="stat-value" id="jul-stat-hours">—</div>
-      <div class="stat-label">Block Hours</div>
-    </div>
-    <div class="stat-card card-off">
-      <div class="stat-icon">🏖️</div>
-      <div class="stat-value" id="jul-stat-off">—</div>
-      <div class="stat-label">Days Off</div>
-    </div>
-    <div class="stat-card card-standby">
-      <div class="stat-icon">🔔</div>
-      <div class="stat-value" id="jul-stat-standby">—</div>
-      <div class="stat-label">Standby</div>
-    </div>
-  </div>
-
   <div class="month-block" style="margin-top:36px;">
     <div class="month-header">
       <h2>August 2026</h2>
@@ -881,7 +849,6 @@ function renderMonth(containerId, year, month, data) {
   }
 }
 
-renderMonth('jul-calendar', 2026, 7, rosterDataJul);
 renderMonth('aug-calendar', 2026, 8, rosterDataAug);
 
 // ── Calculate Stats ───────────────────────────────────────
@@ -912,7 +879,6 @@ function calcStats(data, prefix) {
   document.getElementById(`${prefix}-stat-standby`).textContent  = standby;
 }
 
-calcStats(rosterDataJul, 'jul');
 calcStats(rosterDataAug, 'aug');
 
 // ── Countdown to next duty (real-time) ───────────────────
