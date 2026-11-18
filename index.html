@@ -405,9 +405,132 @@
     .modal-title { font-size: 18px; }
     .stats-grid { grid-template-columns: repeat(2, 1fr); }
   }
+  /* ── PIN Lock Screen ───────────────────────────────────── */
+  #pin-screen {
+    position: fixed; inset: 0; z-index: 9999;
+    background: linear-gradient(135deg, #fff0f4 0%, #fce4ec 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Nunito', sans-serif;
+  }
+  .pin-box {
+    background: #fff; border-radius: 24px;
+    padding: 40px 36px 36px;
+    box-shadow: 0 20px 60px rgba(160,50,90,0.15);
+    text-align: center; width: 320px; max-width: 90vw;
+  }
+  .pin-icon { font-size: 40px; margin-bottom: 10px; }
+  .pin-title { font-size: 22px; font-weight: 800; color: #a0325a; margin-bottom: 4px; }
+  .pin-sub   { font-size: 13px; color: #9096b0; margin-bottom: 24px; }
+  .pin-dots  { display: flex; justify-content: center; gap: 12px; margin-bottom: 28px; }
+  .pin-dot   {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: 2.5px solid #f5a8bc; background: transparent;
+    transition: background 0.15s;
+  }
+  .pin-dot.filled { background: #f5a8bc; }
+  .pin-grid  { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .pin-btn   {
+    background: #fff0f4; border: 1.5px solid #f5a8bc; border-radius: 14px;
+    font-family: 'Nunito', sans-serif; font-size: 20px; font-weight: 800;
+    color: #a0325a; padding: 16px 0; cursor: pointer;
+    transition: background 0.1s, transform 0.1s;
+  }
+  .pin-btn:active { background: #ffd6e0; transform: scale(0.95); }
+  .pin-btn.del    { font-size: 16px; }
+  .pin-btn.empty  { background: transparent; border-color: transparent; cursor: default; }
+  .pin-error {
+    margin-top: 16px; font-size: 13px; font-weight: 700;
+    color: #e05c7a; min-height: 20px; transition: opacity 0.3s;
+  }
 </style>
 </head>
 <body>
+
+<!-- PIN Lock Screen -->
+<div id="pin-screen">
+  <div class="pin-box">
+    <div class="pin-icon">🔒</div>
+    <div class="pin-title">Putty's Roster</div>
+    <div class="pin-sub">Enter PIN to view schedule</div>
+    <div class="pin-dots">
+      <div class="pin-dot" id="d0"></div>
+      <div class="pin-dot" id="d1"></div>
+      <div class="pin-dot" id="d2"></div>
+      <div class="pin-dot" id="d3"></div>
+    </div>
+    <div class="pin-grid">
+      <button class="pin-btn" onclick="pinPress('1')">1</button>
+      <button class="pin-btn" onclick="pinPress('2')">2</button>
+      <button class="pin-btn" onclick="pinPress('3')">3</button>
+      <button class="pin-btn" onclick="pinPress('4')">4</button>
+      <button class="pin-btn" onclick="pinPress('5')">5</button>
+      <button class="pin-btn" onclick="pinPress('6')">6</button>
+      <button class="pin-btn" onclick="pinPress('7')">7</button>
+      <button class="pin-btn" onclick="pinPress('8')">8</button>
+      <button class="pin-btn" onclick="pinPress('9')">9</button>
+      <button class="pin-btn empty"></button>
+      <button class="pin-btn" onclick="pinPress('0')">0</button>
+      <button class="pin-btn del" onclick="pinDel()">⌫</button>
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+  </div>
+</div>
+
+<script>
+  // ── PIN Configuration ─────────────────────────────────
+  const CORRECT_PIN = '3590'; // ← Change this to your PIN
+
+  let pinInput = '';
+
+  function pinPress(digit) {
+    if (pinInput.length >= 4) return;
+    pinInput += digit;
+    updateDots();
+    if (pinInput.length === 4) checkPin();
+  }
+
+  function pinDel() {
+    pinInput = pinInput.slice(0, -1);
+    updateDots();
+    document.getElementById('pin-error').textContent = '';
+  }
+
+  function updateDots() {
+    for (let i = 0; i < 4; i++) {
+      document.getElementById('d' + i).classList.toggle('filled', i < pinInput.length);
+    }
+  }
+
+  function checkPin() {
+    if (pinInput === CORRECT_PIN) {
+      const screen = document.getElementById('pin-screen');
+      screen.style.transition = 'opacity 0.4s';
+      screen.style.opacity = '0';
+      setTimeout(() => screen.remove(), 400);
+    } else {
+      document.getElementById('pin-error').textContent = 'Incorrect PIN. Try again.';
+      pinInput = '';
+      updateDots();
+      // Shake animation
+      const box = document.querySelector('.pin-box');
+      box.style.animation = 'none';
+      box.offsetHeight; // reflow
+      box.style.animation = 'shake 0.4s ease';
+    }
+  }
+
+  // Add shake keyframes
+  const shakeStyle = document.createElement('style');
+  shakeStyle.textContent = `@keyframes shake {
+    0%,100%{transform:translateX(0)}
+    20%{transform:translateX(-8px)}
+    40%{transform:translateX(8px)}
+    60%{transform:translateX(-6px)}
+    80%{transform:translateX(6px)}
+  }`;
+  document.head.appendChild(shakeStyle);
+</script>
+
 <div class="container">
 
   <header>
